@@ -1,3 +1,5 @@
+![readme.gif](https://github.com/al-lopes/image-gallery/blob/master/readme.gif?raw=true)
+
 This gallery app consists in four main services:
 
 1) The Gallery server
