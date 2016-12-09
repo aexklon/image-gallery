@@ -1,0 +1,101 @@
+$lightgrey-3:				rgba(192,192,192,1);
+$lightgrey-2:				rgba(160,160,160,1);
+$lightgrey-1:				rgba(144,144,144,1);
+$grey: 							rgba(128,128,128,1);
+$darkgrey-1:				rgba(64,64,64,1);
+$darkgrey-2-border:	rgba(40,40,40,1);
+$darkgrey-2:				rgba(32,32,32,1);
+$darkgrey-3:				rgba(16,16,16,1);
+
+body {
+	background: $darkgrey-2;
+}
+
+.navbar {
+	border-radius: 0;
+	z-index: 10;
+	background: $darkgrey-3;
+}
+.navbar .btn-secondary, .navbar .form-control {
+	color: $grey;
+	border: 1px solid $darkgrey-2-border;
+	background-color: $darkgrey-2;
+	transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+	&:hover, &:focus, &:active {
+		color: $lightgrey-3;
+		border-color: $darkgrey-1;
+		background-color: $darkgrey-2;
+	}
+	&::-webkit-input-placeholder {
+		color: $darkgrey-1;
+	}
+}
+
+.breadcrumb, .ot-directories a {
+	color: $grey;
+	border: 1px solid $darkgrey-2-border;
+	background-color: $darkgrey-3;
+	transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+	&:hover, &:focus, &:active {
+		z-index: 11;
+		color: $lightgrey-3;
+		border: 1px solid $darkgrey-1;
+		background-color: $darkgrey-3;
+	}
+}
+.breadcrumb a {
+	color: $grey;
+	transition: color 200ms ease;
+	&:hover, &:focus, &:active {
+		color: $lightgrey-3;
+	}
+}
+
+.ot-container, .ot-code, .ot-input {
+	margin-left: 0.25rem;
+}
+
+.files {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	.card {
+		margin: 0.25rem;
+		border-color: $darkgrey-2-border;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+		transition: border-color 200ms ease, box-shadow 200ms ease;
+		&:hover {
+			z-index: 11;
+			box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+			border-color: $darkgrey-1;
+			.ot-btn-clipboard {
+				opacity: 0.63 !important;
+			}
+		}
+		.ot-imageWrapper {
+			position: relative;
+			.card-img-top {
+				height: 220px;
+				width:auto;
+			}
+			.ot-btn-clipboard  {
+				position: absolute;
+				right: 0.25rem;
+				bottom: 0.25rem;
+				opacity: 0;
+				color: $lightgrey-3;
+				background-color: white;
+				transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, opacity 600ms ease;
+				&:hover {
+					color: $darkgrey-2;
+					opacity: 1 !important;
+				}
+				&:active {
+					color: $lightgrey-3;
+					background-color: $darkgrey-2;
+				}
+			}
+		}
+	}
+
+}

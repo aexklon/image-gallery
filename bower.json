@@ -1,0 +1,16 @@
+{
+  "name": "image-gallery-minister",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^15.4.1",
+    "bootstrap": "v4.0.0-alpha.5",
+    "font-awesome": "^4.7.0"
+  }
+}
