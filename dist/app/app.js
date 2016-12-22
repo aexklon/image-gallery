@@ -1,8 +1,25 @@
-'use strict';
+"use strict";
+
+// Loading warning
+var Loading = React.createClass({
+	displayName: "Loading",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ id: "loading", className: "animated bounce infinite" },
+			React.createElement(
+				"span",
+				null,
+				"loading"
+			)
+		);
+	}
+});
+ReactDOM.render(React.createElement(Loading, null), document.getElementById('minister'));
 
 // declaring the state so it can be used later
 var state = {};
-
 // function that will be called to change the state
 function setState(changes) {
 	Object.assign(state, changes);
@@ -25,7 +42,7 @@ function translate(url) {
 // set the API URI based on the browser adress, and translate it to API call
 var fetchPath = ('http://127.0.0.1:8000' + window.location.pathname).replace('/outputer', '');
 
-// promisse a request to the API
+//promisse a request to the API
 fetch(fetchPath)
 // parse the body of the response
 .then(function (res) {
@@ -53,7 +70,7 @@ fetch(fetchPath)
 
 // Master component
 var Outputer = React.createClass({
-	displayName: 'Outputer',
+	displayName: "Outputer",
 
 	render: function render() {
 		var _props = this.props,
@@ -66,20 +83,20 @@ var Outputer = React.createClass({
 		    cardInfo = _props.cardInfo;
 
 		return React.createElement(
-			'div',
-			{ id: 'outputer' },
+			"div",
+			{ id: "outputer", className: "animated fadeIn" },
 			React.createElement(
-				'nav',
+				"nav",
 				null,
 				React.createElement(Navbar, { containerSize: containerSize, cardSize: cardSize, cardInfo: cardInfo }),
 				React.createElement(
-					'div',
+					"div",
 					{ className: 'container ' + containerSize },
 					crumbs && crumbs[0] ? React.createElement(Breadcrumbs, { crumbs: crumbs }) : null
 				)
 			),
 			React.createElement(
-				'article',
+				"article",
 				{ className: 'container ' + containerSize },
 				dirs && dirs[0] ? React.createElement(Directories, { dirs: dirs }) : null,
 				files && files[0] ? React.createElement(Files, { files: files, cardSize: cardSize, cardInfo: cardInfo }) : null
@@ -90,20 +107,20 @@ var Outputer = React.createClass({
 
 // Displays Breadcrumbs for the current page
 var Breadcrumbs = React.createClass({
-	displayName: 'Breadcrumbs',
+	displayName: "Breadcrumbs",
 
 	render: function render() {
 		var crumbs = this.props.crumbs;
 
 		return React.createElement(
-			'ol',
-			{ id: 'breadcrumbs', className: 'breadcrumb mt-1 mb-0' },
+			"ol",
+			{ id: "breadcrumbs", className: "breadcrumb mt-1 mb-0" },
 			crumbs.map(function (crumb, i) {
 				return React.createElement(
-					'li',
-					{ key: i, className: 'breadcrumb-item' },
+					"li",
+					{ key: i, className: "breadcrumb-item" },
 					React.createElement(
-						'a',
+						"a",
 						{ href: translate(crumb.URL) },
 						crumb.name
 					)
@@ -115,18 +132,18 @@ var Breadcrumbs = React.createClass({
 
 // Displays the sub directories fot the current page
 var Directories = React.createClass({
-	displayName: 'Directories',
+	displayName: "Directories",
 
 	render: function render() {
 		var dirs = this.props.dirs;
 
 		return React.createElement(
-			'header',
-			{ id: 'dirs', className: 'ot-directories list-group mt-1' },
+			"header",
+			{ id: "dirs", className: "ot-directories list-group mt-1" },
 			dirs.map(function (dir, i) {
 				return React.createElement(
-					'a',
-					{ href: translate(dir.URL), className: 'list-group-item list-group-item-action', key: i },
+					"a",
+					{ href: translate(dir.URL), className: "list-group-item list-group-item-action", key: i },
 					dir.name
 				);
 			})
@@ -136,7 +153,7 @@ var Directories = React.createClass({
 
 // Displays the files in the current page, in Cards
 var Files = React.createClass({
-	displayName: 'Files',
+	displayName: "Files",
 
 	render: function render() {
 		var _props2 = this.props,
@@ -145,8 +162,8 @@ var Files = React.createClass({
 		    cardInfo = _props2.cardInfo;
 
 		return React.createElement(
-			'main',
-			{ id: 'files', className: 'ot-files mt-1' },
+			"main",
+			{ id: "files", className: "ot-files mt-1" },
 			files.map(function (file, i) {
 				return React.createElement(Card, { file: file, key: i, cardSize: cardSize, cardInfo: cardInfo });
 			})
@@ -156,7 +173,7 @@ var Files = React.createClass({
 
 // Displays a file as a linked images
 var Card = React.createClass({
-	displayName: 'Card',
+	displayName: "Card",
 
 	render: function render() {
 		var _props3 = this.props,
@@ -165,38 +182,38 @@ var Card = React.createClass({
 		    cardInfo = _props3.cardInfo;
 
 		return React.createElement(
-			'div',
-			{ 'data-src': file.URL, className: 'card ' + cardSize },
+			"div",
+			{ "data-src": file.URL, className: 'card ' + cardSize },
 			cardInfo ? React.createElement(
-				'div',
-				{ className: 'card-block' },
+				"div",
+				{ className: "card-block" },
 				React.createElement(
-					'h4',
-					{ className: 'card-title' },
+					"h4",
+					{ className: "card-title" },
 					file.sequence
 				)
 			) : null,
 			React.createElement(
-				'div',
-				{ className: 'ot-imageWrapper' },
+				"div",
+				{ className: "ot-imageWrapper" },
 				React.createElement(
-					'a',
-					{ target: '_blank', href: file.URL },
-					React.createElement('img', { className: 'card-img-top img-fluid', src: file.URL })
+					"a",
+					{ target: "_blank", href: file.URL },
+					React.createElement("img", { className: "card-img-top img-fluid", src: file.URL })
 				),
 				React.createElement(
-					'button',
-					{ className: 'ot-btn-clipboard btn', type: 'button', name: 'Copy to clipboard', 'data-clipboard-text': file.URL },
-					React.createElement('i', { className: 'fa fa-link' })
+					"button",
+					{ className: "ot-btn-clipboard btn", type: "button", name: "Copy to clipboard", "data-clipboard-text": file.URL },
+					React.createElement("i", { className: "fa fa-link" })
 				)
 			),
 			cardInfo && file.keywords ? React.createElement(
-				'ul',
-				{ className: 'list-group list-group-flush' },
+				"ul",
+				{ className: "list-group list-group-flush" },
 				file.keywords.map(function (keyword, i) {
 					return React.createElement(
-						'li',
-						{ className: 'list-group-item', key: i },
+						"li",
+						{ className: "list-group-item", key: i },
 						keyword
 					);
 				})
@@ -208,7 +225,7 @@ var Card = React.createClass({
 // Displays the Navbar
 // Its functionality will be developed in next commits. Right now just the breadcrumbs are dynamic
 var Navbar = React.createClass({
-	displayName: 'Navbar',
+	displayName: "Navbar",
 
 	_changeContainerSize: function _changeContainerSize(containerSize, scale) {
 		var sizes = ['container--500', 'container--900', 'container--1140', 'container--full'];
@@ -289,59 +306,59 @@ var Navbar = React.createClass({
 		    cardInfo = _props4.cardInfo;
 
 		return React.createElement(
-			'div',
-			{ className: 'navbar' },
+			"div",
+			{ className: "navbar" },
 			React.createElement(
-				'div',
+				"div",
 				{ className: 'container ' + containerSize },
-				React.createElement('button', { className: 'navbar-toggler hidden-md-up', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbarResponsive', 'aria-controls': 'navbarResponsive', 'aria-expanded': 'false', 'aria-label': 'Toggle navigation' }),
+				React.createElement("button", { className: "navbar-toggler hidden-md-up", type: "button", "data-toggle": "collapse", "data-target": "#navbarResponsive", "aria-controls": "navbarResponsive", "aria-expanded": "false", "aria-label": "Toggle navigation" }),
 				React.createElement(
-					'div',
-					{ className: 'collapse navbar-toggleable-sm', id: 'navbarResponsive' },
+					"div",
+					{ className: "collapse navbar-toggleable-sm", id: "navbarResponsive" },
 					React.createElement(
-						'div',
-						{ className: 'btn-group ot-images', role: 'group', 'aria-label': 'Resize images' },
+						"div",
+						{ className: "btn-group ot-images", role: "group", "aria-label": "Resize images" },
 						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-secondary', onClick: this._changeCardSize.bind(this, cardSize, "decrease") },
-							React.createElement('i', { className: 'fa fa-compress', 'aria-hidden': 'true' })
+							"button",
+							{ type: "button", className: "btn btn-secondary", onClick: this._changeCardSize.bind(this, cardSize, "decrease") },
+							React.createElement("i", { className: "fa fa-compress", "aria-hidden": "true" })
 						),
 						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-secondary', onClick: this._changeCardSize.bind(this, cardSize, "increase") },
-							React.createElement('i', { className: 'fa fa-expand', 'aria-hidden': 'true' })
+							"button",
+							{ type: "button", className: "btn btn-secondary", onClick: this._changeCardSize.bind(this, cardSize, "increase") },
+							React.createElement("i", { className: "fa fa-expand", "aria-hidden": "true" })
 						)
 					),
 					React.createElement(
-						'div',
-						{ className: 'btn-group ot-container', role: 'group', 'aria-label': 'Resize container' },
+						"div",
+						{ className: "btn-group ot-container", role: "group", "aria-label": "Resize container" },
 						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-secondary', onClick: this._changeContainerSize.bind(this, containerSize, "decrease") },
-							React.createElement('i', { className: 'fa fa-mobile', 'aria-hidden': 'true' })
+							"button",
+							{ type: "button", className: "btn btn-secondary", onClick: this._changeContainerSize.bind(this, containerSize, "decrease") },
+							React.createElement("i", { className: "fa fa-mobile", "aria-hidden": "true" })
 						),
 						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-secondary', onClick: this._changeContainerSize.bind(this, containerSize, "increase") },
-							React.createElement('i', { className: 'fa fa-desktop', 'aria-hidden': 'true' })
+							"button",
+							{ type: "button", className: "btn btn-secondary", onClick: this._changeContainerSize.bind(this, containerSize, "increase") },
+							React.createElement("i", { className: "fa fa-desktop", "aria-hidden": "true" })
 						)
 					),
 					React.createElement(
-						'div',
-						{ className: 'btn-group ot-code', role: 'group', 'aria-label': 'Resize container' },
+						"div",
+						{ className: "btn-group ot-code", role: "group", "aria-label": "Resize container" },
 						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-secondary', onClick: this._changeCardInfo.bind(this, cardInfo) },
-							React.createElement('i', { className: 'fa fa-code', 'aria-hidden': 'true' })
+							"button",
+							{ type: "button", className: "btn btn-secondary", onClick: this._changeCardInfo.bind(this, cardInfo) },
+							React.createElement("i", { className: "fa fa-code", "aria-hidden": "true" })
 						)
 					),
 					React.createElement(
-						'form',
-						{ className: 'form-inline float-md-right' },
-						React.createElement('input', { className: 'ot-input form-control', type: 'text', placeholder: 'Search', onChange: function onChange(e) {
+						"form",
+						{ className: "form-inline float-md-right" },
+						React.createElement("input", { className: "ot-input form-control", type: "text", placeholder: "Search", onChange: function onChange(e) {
 								return _this._search("including", e.target.value);
 							} }),
-						React.createElement('input', { className: 'ot-input form-control', type: 'text', placeholder: 'Exclude', onChange: function onChange(e) {
+						React.createElement("input", { className: "ot-input form-control", type: "text", placeholder: "Exclude", onChange: function onChange(e) {
 								return _this._search("excluding", e.target.value);
 							}, disabled: !state.searchIncluding })
 					)

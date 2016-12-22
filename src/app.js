@@ -1,6 +1,19 @@
+// Loading warning
+const Loading = React.createClass({
+  render: function() {
+    return (
+			<div id="loading" className="animated bounce infinite">
+				<span>loading</span>
+			</div>
+    )
+  }
+})
+ReactDOM.render(
+	<Loading />, document.getElementById('minister')
+)
+
 // declaring the state so it can be used later
 let state = {}
-
 // function that will be called to change the state
 function setState(changes) {
   Object.assign(state, changes)
@@ -25,7 +38,7 @@ function translate(url) {
 // set the API URI based on the browser adress, and translate it to API call
 let fetchPath = ('http://127.0.0.1:8000'+window.location.pathname).replace('/outputer', '')
 
-// promisse a request to the API
+//promisse a request to the API
 fetch(fetchPath)
 	// parse the body of the response
 	.then(res=>res.json())
@@ -57,7 +70,7 @@ const Outputer = React.createClass({
   render: function() {
 		let {crumbs, dirs, files, filesFiltered, containerSize, cardSize, cardInfo} = this.props
     return (
-			<div id="outputer">
+			<div id="outputer" className="animated fadeIn">
 				<nav>
 					<Navbar containerSize={containerSize} cardSize={cardSize} cardInfo={cardInfo}/>
 					<div className={'container ' + containerSize}>

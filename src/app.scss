@@ -13,6 +13,26 @@ $darkgrey-3:				rgba(16,16,16,1);
 body {
 	background: $darkgrey-2;
 }
+#loading {
+	padding-top: 40vh;
+	color: white;
+	text-align: center;
+	text-transform: uppercase;
+	animation-duration: 1.4s;
+	span {
+		animation-duration: 1s;
+		animation-iteration-count: 1;
+		animation-name: customOpacity;
+		@keyframes customOpacity {
+		  0%   { opacity: 0; }
+		  50%  { opacity: 0; }
+		  100% { opacity: 1; }
+		}
+	}
+}
+#outputer {
+	animation-duration: 200ms;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
