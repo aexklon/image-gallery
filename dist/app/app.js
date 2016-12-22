@@ -48,6 +48,7 @@ fetch(fetchPath)
 	changes.cardInfo = false;
 	setState(changes);
 	new Clipboard('#files .ot-btn-clipboard');
+	$("#files").lightGallery({});
 });
 
 // Master component
@@ -165,7 +166,7 @@ var Card = React.createClass({
 
 		return React.createElement(
 			'div',
-			{ className: 'card ' + cardSize },
+			{ 'data-src': file.URL, className: 'card ' + cardSize },
 			cardInfo ? React.createElement(
 				'div',
 				{ className: 'card-block' },

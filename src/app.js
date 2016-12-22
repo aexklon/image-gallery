@@ -47,6 +47,9 @@ fetch(fetchPath)
 		changes.cardInfo = false
 		setState(changes)
 		new Clipboard('#files .ot-btn-clipboard')
+		$("#files").lightGallery({
+
+		})
 	})
 
 // Master component
@@ -111,7 +114,7 @@ const Card = React.createClass({
   render: function() {
 		let {file, cardSize, cardInfo} = this.props
     return (
-			<div className={'card ' + cardSize}>
+			<div data-src={file.URL} className={'card ' + cardSize}>
 				{cardInfo ?
 					<div className="card-block">
 						<h4 className="card-title">{file.sequence}</h4>
