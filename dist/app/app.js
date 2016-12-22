@@ -65,7 +65,9 @@ fetch(fetchPath)
 	changes.cardInfo = false;
 	setState(changes);
 	new Clipboard('#files .ot-btn-clipboard');
-	$("#files").lightGallery({});
+	$("#files").lightGallery({
+		"selector": ".ot-imageWrapper__a"
+	});
 });
 
 // Master component
@@ -198,7 +200,7 @@ var Card = React.createClass({
 				{ className: "ot-imageWrapper" },
 				React.createElement(
 					"a",
-					{ target: "_blank", href: file.URL },
+					{ className: "ot-imageWrapper__a", target: "_blank", href: file.URL },
 					React.createElement("img", { className: "card-img-top img-fluid", src: file.URL })
 				),
 				React.createElement(

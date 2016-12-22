@@ -61,7 +61,7 @@ fetch(fetchPath)
 		setState(changes)
 		new Clipboard('#files .ot-btn-clipboard')
 		$("#files").lightGallery({
-
+			"selector":".ot-imageWrapper__a"
 		})
 	})
 
@@ -134,7 +134,7 @@ const Card = React.createClass({
 					</div>
 				: null}
 				<div className="ot-imageWrapper">
-					<a target="_blank" href={file.URL}>
+					<a className="ot-imageWrapper__a" target="_blank" href={file.URL}>
 						<img className="card-img-top img-fluid" src={file.URL} />
 					</a>
 					<button className="ot-btn-clipboard btn" type="button" name="Copy to clipboard" data-clipboard-text={file.URL}>
