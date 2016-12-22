@@ -7,16 +7,24 @@ $darkgrey-2-border:	rgba(40,40,40,1);
 $darkgrey-2:				rgba(32,32,32,1);
 $darkgrey-3:				rgba(16,16,16,1);
 
+////////////////////////////////////////////////////////////////////////////////
+// BASE
+
 body {
 	background: $darkgrey-2;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// COMPONENTS
 
 .navbar {
 	border-radius: 0;
 	z-index: 10;
 	background: $darkgrey-3;
 }
-.navbar .btn-secondary, .navbar .form-control {
+.navbar .btn-secondary,
+.navbar .form-control {
 	color: $grey;
 	border: 1px solid $darkgrey-2-border;
 	background-color: $darkgrey-2;
@@ -55,7 +63,7 @@ body {
 	margin-left: 0.25rem;
 }
 
-.files {
+.ot-files {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -75,7 +83,7 @@ body {
 		.ot-imageWrapper {
 			position: relative;
 			.card-img-top {
-				height: 220px;
+				height: 120px;
 				width:auto;
 			}
 			.ot-btn-clipboard  {
@@ -98,4 +106,47 @@ body {
 		}
 	}
 
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// STATE
+
+.container {
+	transition: max-width 200ms ease, width 200ms ease;
+	&.container--500 {
+		max-width: 500px !important;
+	}
+	&.container--900 {
+		max-width: 600px !important;
+	}
+	&.container--1140 {
+		max-width: 900px !important;
+	}
+	&.container--full {
+		width: 95% !important;
+	}
+}
+
+.ot-files .card {
+	transition: width 200ms ease;
+	.ot-imageWrapper .card-img-top {
+		transition: width 200ms ease, height 200ms ease;
+	}
+	&.card--80 .ot-imageWrapper .card-img-top {
+		height: 80px;
+	}
+	&.card--120 .ot-imageWrapper .card-img-top {
+		height: 120px;
+	}
+	&.card--180 .ot-imageWrapper .card-img-top {
+		height: 180px;
+	}
+	&.card--full {
+		width: 100%;
+		.ot-imageWrapper .card-img-top {
+			height: auto;
+			width: 100%;
+		}
+	}
 }
