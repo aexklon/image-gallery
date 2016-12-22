@@ -46,6 +46,7 @@ fetch(fetchPath)
 		changes.cardSize = localStorage.getItem('cardSize')
 		changes.cardInfo = false
 		setState(changes)
+		new Clipboard('#files .ot-btn-clipboard')
 	})
 
 // Master component
@@ -74,7 +75,7 @@ const Breadcrumbs = React.createClass({
   render: function() {
 		let {crumbs} = this.props
     return (
-			<ol className="breadcrumb mt-1 mb-0">
+			<ol id="breadcrumbs" className="breadcrumb mt-1 mb-0">
 				{crumbs.map((crumb, i)=><li key={i} className="breadcrumb-item"><a href={translate(crumb.URL)}>{crumb.name}</a></li>)}
 			</ol>
     )
@@ -86,7 +87,7 @@ const Directories = React.createClass({
   render: function() {
 		let {dirs} = this.props
     return (
-			<header className="ot-directories list-group mt-1">
+			<header id="dirs" className="ot-directories list-group mt-1">
 				{dirs.map((dir, i)=><a href={translate(dir.URL)} className="list-group-item list-group-item-action" key={i}>{dir.name}</a>)}
 			</header>
     )
@@ -98,7 +99,7 @@ const Files = React.createClass({
   render: function() {
 		let {files, cardSize, cardInfo} = this.props
     return (
-			<main className="ot-files mt-1">
+			<main id="files" className="ot-files mt-1">
 				{files.map((file, i)=><Card file={file} key={i} cardSize={cardSize} cardInfo={cardInfo}/>)}
 			</main>
     )

@@ -47,6 +47,7 @@ fetch(fetchPath)
 	changes.cardSize = localStorage.getItem('cardSize');
 	changes.cardInfo = false;
 	setState(changes);
+	new Clipboard('#files .ot-btn-clipboard');
 });
 
 // Master component
@@ -95,7 +96,7 @@ var Breadcrumbs = React.createClass({
 
 		return React.createElement(
 			'ol',
-			{ className: 'breadcrumb mt-1 mb-0' },
+			{ id: 'breadcrumbs', className: 'breadcrumb mt-1 mb-0' },
 			crumbs.map(function (crumb, i) {
 				return React.createElement(
 					'li',
@@ -120,7 +121,7 @@ var Directories = React.createClass({
 
 		return React.createElement(
 			'header',
-			{ className: 'ot-directories list-group mt-1' },
+			{ id: 'dirs', className: 'ot-directories list-group mt-1' },
 			dirs.map(function (dir, i) {
 				return React.createElement(
 					'a',
@@ -144,7 +145,7 @@ var Files = React.createClass({
 
 		return React.createElement(
 			'main',
-			{ className: 'ot-files mt-1' },
+			{ id: 'files', className: 'ot-files mt-1' },
 			files.map(function (file, i) {
 				return React.createElement(Card, { file: file, key: i, cardSize: cardSize, cardInfo: cardInfo });
 			})
