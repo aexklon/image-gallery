@@ -1,7 +1,7 @@
 # Image Gallery
 Consists of a react.js bootstrap gallery driven by node.js express servers/API that builds breadcrumbs, lists directories and serves images. Clone it, `npm install` its dependencies, start `node serve` and hit http://127.0.0.1:8080/outputer for the front-end or http://127.0.0.1:8000/ for JSON. By default images are searched within `../!gal` and hosted at http://127.0.0.1:8081
 
-![readme.gif](https://github.com/al-lopes/image-gallery/blob/master/readme.gif?raw=true)
+![readme.gif](https://github.com/al-lopes/image-gallery/blob/224a82cfbd5f367ed098e079ee23455b1c3bc2ab/readme.gif?raw=true)
 
 ## The Servers
 are inside `./serve.js` and consists of four main services:
