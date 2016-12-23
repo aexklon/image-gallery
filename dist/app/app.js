@@ -1,61 +1,35 @@
 "use strict";
 
-// Loading warning
-var Loading = React.createClass({
-	displayName: "Loading",
+// Renders a transparent loading message,
+// which becomes opaque whithin some milliseconds.
+// This message is supposed to be overwritten by
+// the next render at its ID.
+ReactDOM.render(React.createElement(
+	"div",
+	{ id: "app-loading", className: "animated bounce infinite" },
+	React.createElement(
+		"span",
+		null,
+		"loading"
+	)
+), document.getElementById('app'));
 
-	render: function render() {
-		return React.createElement(
-			"div",
-			{ id: "loading", className: "animated bounce infinite" },
-			React.createElement(
-				"span",
-				null,
-				"loading"
-			)
-		);
-	}
-});
-ReactDOM.render(React.createElement(Loading, null), document.getElementById('minister'));
-
-// declaring the state so it can be used later
+// Declare the application state, which will be filled with data get from
+// a path (based in the current browser address) that will be fetched.
+// The fetch api returns a promise, whose response needs to be parsed into json.
+// Then this json will be saved into the state as a key/value pair,
+// and its key will be saved as the cwd (curret working directory).
+// So, next requests can be looked up in the state before issuing a new requests
+// TO-DO: make the state persistent during sessions, so the request cache system can be acessed after the windows.location changes
 var state = {};
-// function that will be called to change the state
-function setState(changes) {
-	Object.assign(state, changes);
-	ReactDOM.render(React.createElement(Outputer, {
-		crumbs: state[state.cwd].crumbs,
-		dirs: state[state.cwd].dirs,
-		files: state.filesFiltered,
-		containerSize: state.containerSize,
-		cardSize: state.cardSize,
-		cardInfo: state.cardInfo
-	}), document.getElementById('minister'));
-	//console.log('state', state)
-}
-
-// translate URLs between client and server side
-function translate(url) {
-	return url.replace('http://127.0.0.1:8000', 'http://127.0.0.1:8080/outputer');
-}
-
-// set the API URI based on the browser adress, and translate it to API call
 var fetchPath = ('http://127.0.0.1:8000' + window.location.pathname).replace('/outputer', '');
-
-//promisse a request to the API
-fetch(fetchPath)
-// parse the body of the response
-.then(function (res) {
+fetch(fetchPath).then(function (res) {
 	return res.json();
-})
-// Change the state, with the key being the the current page
-// and the value the parsed json
-.then(function (value) {
+}).then(function (value) {
 	var changes = {};
 	var key = window.location.pathname;
 	changes[key] = value;
 	changes.cwd = key;
-	//console.log('changes', key, changes)
 	setState(changes);
 }).then(function () {
 	var changes = {};
@@ -64,13 +38,16 @@ fetch(fetchPath)
 	changes.cardSize = localStorage.getItem('cardSize');
 	changes.cardInfo = false;
 	setState(changes);
-	new Clipboard('#files .ot-btn-clipboard');
-	$("#files").lightGallery({
-		"selector": ".ot-imageWrapper__a"
+}).then(function () {
+	$(document).ready(function () {
+		new Clipboard('.ot-card__figure-btnClipboard'); // start clipboard
+		$('#ot-files').lightGallery({ "selector": ".ot-card__figure-link" }); // start light gallery
+		$('.collapse').collapse(); // start bootstrap collapse
 	});
 });
 
-// Master component
+// Master Outputer component, which will be rendered on assigned state changes
+// Its main logic can be found on the Navbar component
 var Outputer = React.createClass({
 	displayName: "Outputer",
 
@@ -86,7 +63,7 @@ var Outputer = React.createClass({
 
 		return React.createElement(
 			"div",
-			{ id: "outputer", className: "animated fadeIn" },
+			{ id: "app-outputer", className: "animated fadeIn" },
 			React.createElement(
 				"nav",
 				null,
@@ -116,14 +93,14 @@ var Breadcrumbs = React.createClass({
 
 		return React.createElement(
 			"ol",
-			{ id: "breadcrumbs", className: "breadcrumb mt-1 mb-0" },
+			{ id: "ot-breadcrumb", className: "ot-breadcrumb breadcrumb mt-1 mb-0" },
 			crumbs.map(function (crumb, i) {
 				return React.createElement(
 					"li",
-					{ key: i, className: "breadcrumb-item" },
+					{ key: i, className: "ot-breadcrumb__item breadcrumb-item" },
 					React.createElement(
 						"a",
-						{ href: translate(crumb.URL) },
+						{ className: "ot-breadcrumb__item-anchor", href: translate(crumb.URL) },
 						crumb.name
 					)
 				);
@@ -141,11 +118,11 @@ var Directories = React.createClass({
 
 		return React.createElement(
 			"header",
-			{ id: "dirs", className: "ot-directories list-group mt-1" },
+			{ id: "ot-dirs", className: "ot-dirs list-group mt-1" },
 			dirs.map(function (dir, i) {
 				return React.createElement(
 					"a",
-					{ href: translate(dir.URL), className: "list-group-item list-group-item-action", key: i },
+					{ href: translate(dir.URL), className: "ot-dirs__anchor list-group-item list-group-item-action", key: i },
 					dir.name
 				);
 			})
@@ -165,7 +142,7 @@ var Files = React.createClass({
 
 		return React.createElement(
 			"main",
-			{ id: "files", className: "ot-files mt-1" },
+			{ id: "ot-files", className: "ot-files mt-1" },
 			files.map(function (file, i) {
 				return React.createElement(Card, { file: file, key: i, cardSize: cardSize, cardInfo: cardInfo });
 			})
@@ -185,7 +162,7 @@ var Card = React.createClass({
 
 		return React.createElement(
 			"div",
-			{ "data-src": file.URL, className: 'card ' + cardSize },
+			{ "data-src": file.URL, className: 'ot-card card ' + cardSize },
 			cardInfo ? React.createElement(
 				"div",
 				{ className: "card-block" },
@@ -197,15 +174,15 @@ var Card = React.createClass({
 			) : null,
 			React.createElement(
 				"div",
-				{ className: "ot-imageWrapper" },
+				{ className: "ot-card__figure" },
 				React.createElement(
 					"a",
-					{ className: "ot-imageWrapper__a", target: "_blank", href: file.URL },
-					React.createElement("img", { className: "card-img-top img-fluid", src: file.URL })
+					{ className: "ot-card__figure-link", target: "_blank", href: file.URL },
+					React.createElement("img", { className: "ot-card__figure-link-image card-img-top img-fluid", src: file.URL })
 				),
 				React.createElement(
 					"button",
-					{ className: "ot-btn-clipboard btn", type: "button", name: "Copy to clipboard", "data-clipboard-text": file.URL },
+					{ className: "ot-card__figure-btnClipboard btn", type: "button", name: "Copy to clipboard", "data-clipboard-text": file.URL },
 					React.createElement("i", { className: "fa fa-link" })
 				)
 			),
@@ -225,7 +202,7 @@ var Card = React.createClass({
 });
 
 // Displays the Navbar
-// Its functionality will be developed in next commits. Right now just the breadcrumbs are dynamic
+// and host the logic for changing card and container sizes, info and search
 var Navbar = React.createClass({
 	displayName: "Navbar",
 
@@ -265,6 +242,8 @@ var Navbar = React.createClass({
 				setState({ "searchExcluding": input });
 				break;
 		}
+		// this timeouts purpose is aesthetic. It slows down the react to inputs
+		// so there is a delay bewteen the user stoping typing and the state changing
 		setTimeout(function () {
 			if (state.searchIncluding) {
 				if (!state.searchExcluding) {
@@ -309,7 +288,7 @@ var Navbar = React.createClass({
 
 		return React.createElement(
 			"div",
-			{ className: "navbar" },
+			{ className: "ot-navbar navbar" },
 			React.createElement(
 				"div",
 				{ className: 'container ' + containerSize },
@@ -369,3 +348,22 @@ var Navbar = React.createClass({
 		);
 	}
 });
+
+// utility to translate URLs between back and front ends
+function translate(url) {
+	return url.replace('http://127.0.0.1:8000', 'http://127.0.0.1:8080/outputer');
+}
+
+// Utility that assign changes to the application state
+// and renders its main component
+function setState(changes) {
+	Object.assign(state, changes);
+	ReactDOM.render(React.createElement(Outputer, {
+		crumbs: state[state.cwd].crumbs,
+		dirs: state[state.cwd].dirs,
+		files: state.filesFiltered,
+		containerSize: state.containerSize,
+		cardSize: state.cardSize,
+		cardInfo: state.cardInfo
+	}), document.getElementById('app'));
+}
